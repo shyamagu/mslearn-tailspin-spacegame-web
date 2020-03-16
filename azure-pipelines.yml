@@ -4,7 +4,7 @@ trigger:
 pool:
   vmImage: 'ubuntu-16.04'
   demands:
-    - npm
+  - npm
 
 variables:
   buildConfiguration: 'Release'
@@ -13,8 +13,9 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
+  displayName: 'Use .NET Core $(dotnetSdkVersion)'
   inputs:
+    packageType: sdk
     version: '$(dotnetSdkVersion)'
 
 - task: Npm@1
@@ -61,6 +62,7 @@ steps:
     publishWebProjects: false
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
     zipAfterPublish: true
+
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
